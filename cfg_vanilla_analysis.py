@@ -8,17 +8,14 @@ plt.style.use('comdepri.mplstyle')
 data = pd.read_csv(rf"{ROOT}\data\vanillaMeasures.csv")
 print(f"N = {len(data)}")
 
-orig_dict = {"Gallery originality": data["Gallery Orig"], "% Gallery uniqueness": data["% Galleries Unique"],
-             "Out-of-the-boxness": 1 - data["% clusters in GC"]}
-efficiency_dict = {"Exploration efficiency": data["exp optimality"],
-                   "Exploitation efficiency": data["scav optimality"]}
+y_dict = {"Gallery originality": data["Gallery Orig"], "% Gallery uniqueness": data["% Galleries Unique"],
+          "Out-of-the-boxness": 1 - data["% clusters in GC"], "Exploration efficiency": data["exp optimality"],
+          "Exploitation efficiency": data["scav optimality"], "Path length": data["Total # moves"]}
 
-for y_dict, y_name in zip((orig_dict, efficiency_dict), ("originality", "efficiency")):
-    n_subplots = len(y_dict)
-    fig, axs = plt.subplots(1, n_subplots, sharex=True, figsize=(2 + n_subplots * 5, 5))
-    for ax, (y_label, y) in zip(tqdm(axs.flat, desc="Vanilla vars", leave=False), y_dict.items()):
-        data_dict = {"Self-avoidance": data["self avoidance"], y_label: y}
-        scatter(data_dict, ax)
+fig, axs = plt.subplots(2, 3, sharex=True, figsize=(17, 10))
+for ax, (y_label, y) in zip(tqdm(axs.flat, desc="Vanilla vars", leave=False), y_dict.items()):
+    data_dict = {"Self-avoidance": data["self avoidance"], y_label: y}
+    scatter(data_dict, ax)
 
-    plt.savefig(rf"{ROOT}\figs\{y_name}_correlations.pdf", bbox_inches="tight")
-    plt.show()
+plt.savefig(rf"{ROOT}\figs\vanilla_correlations.pdf", bbox_inches="tight")
+plt.show()
