@@ -1,6 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from tqdm import tqdm
 from utils import scatter, ROOT
 
 plt.style.use('comdepri.mplstyle')
@@ -13,7 +12,7 @@ y_dict = {"Gallery originality": data["Gallery Orig"], "% Gallery uniqueness": d
           "Exploitation efficiency": data["scav optimality"], "Path length": data["Total # moves"]}
 
 fig, axs = plt.subplots(2, 3, sharex=True, figsize=(17, 10))
-for ax, (y_label, y) in zip(tqdm(axs.flat, desc="Vanilla vars", leave=False), y_dict.items()):
+for ax, (y_label, y) in zip(axs.flat, y_dict.items()):
     data_dict = {"Self-avoidance": data["self avoidance"], y_label: y}
     scatter(data_dict, ax)
 
