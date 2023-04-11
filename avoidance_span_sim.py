@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpl_patches
 import os
 from scipy.stats import spearmanr, bootstrap
+from utils import ROOT
 
 plt.style.use('comdepri.mplstyle')
 
@@ -72,14 +73,14 @@ class Simulator:
         sim_param_string = fr"n={self.n_agents}_log_g={min(self.log_gs), max(self.log_gs)}_log_alpha=" \
                            f"{min(self.log_alphas), max(self.log_alphas)}"
 
-        raw_filename = fr"G:\My Drive\MA\Thesis\data\avoidance_simulations\raw_{sim_param_string}.npy"
+        raw_filename = fr"{ROOT}\data\raw_{sim_param_string}.npy"
         if os.path.isfile(raw_filename):
             self.raw_results = np.load(raw_filename)
         else:
             self._simulate()
             np.save(raw_filename, self.raw_results)
 
-        summed_filename = fr"G:\My Drive\MA\Thesis\data\avoidance_simulations\summed_{sim_param_string}.csv"
+        summed_filename = fr"{ROOT}\data\summed_{sim_param_string}.csv"
         if os.path.isfile(summed_filename):
             self.summed_df = pd.read_csv(summed_filename)
         else:
@@ -147,7 +148,7 @@ class Simulator:
             ax.set_ylabel(y_label)
             ax.legend(fontsize=12)
 
-        plt.savefig(r"G:\My Drive\MA\Thesis\figs\avoidance_span.pdf", bbox_inches="tight")
+        plt.savefig(fr"{ROOT}\figs\avoidance_span.pdf", bbox_inches="tight")
         plt.show()
 
 
