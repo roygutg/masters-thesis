@@ -8,8 +8,8 @@ plt.style.use('comdepri.mplstyle')
 data = pd.read_csv(rf"{ROOT}\data\vanillaMeasures.csv")
 print(f"N = {len(data)}")
 
-orig_dict = {"Originality": data["Gallery Orig"], "% unique products": data["% Galleries Unique"],
-             "% novel categories\ndiscovered": 1 - data["% clusters in GC"]}
+orig_dict = {"Gallery originality": data["Gallery Orig"], "% Gallery uniqueness": data["% Galleries Unique"],
+             "Out-of-the-boxness": 1 - data["% clusters in GC"]}
 efficiency_dict = {"Exploration efficiency": data["exp optimality"],
                    "Exploitation efficiency": data["scav optimality"]}
 

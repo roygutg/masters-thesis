@@ -5,7 +5,8 @@ from scipy.stats import spearmanr
 
 ROOT = r"G:\My Drive\MA\Thesis"
 
-def scatter(data_dict, ax=None, alpha=None, yerr=None, spearman_label=False):
+
+def scatter(data_dict, ax=None, alpha=None, spearman_label=False):
     (x_label, x), (y_label, y) = data_dict.items()
     x, y = np.array(x), np.array(y)
 
@@ -15,10 +16,7 @@ def scatter(data_dict, ax=None, alpha=None, yerr=None, spearman_label=False):
     no_nan_idx = np.isfinite(x * y)
     x, y = x[no_nan_idx], y[no_nan_idx]
 
-    if yerr is None:
-        ax.scatter(x, y, alpha=alpha)
-    else:
-        ax.errorbar(x, y, yerr, ecolor="k", capsize=7, fmt="o")
+    ax.scatter(x, y, alpha=alpha)
 
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
