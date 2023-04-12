@@ -117,9 +117,10 @@ class Simulator:
         if not self.ran:
             raise SimulationException("must run first")
 
-        y_labels = ["Mean self-avoidance", "Fraction of agents with\nexplore-exploit behavior"]
-        fig, axs = plt.subplots(1, 2, figsize=(12, 5))
-        for i, (ax, y_label, converged_only) in enumerate(zip(axs, y_labels, [True, False])):
+        y_labels = ["Mean self-avoidance", "Fraction of agents with\nexplore-exploit behavior",
+                    "Mean number of\nexploitation bouts"]
+        fig, axs = plt.subplots(1, 3, figsize=(17, 5))
+        for i, (ax, y_label, converged_only) in enumerate(zip(axs, y_labels, [True, False, True])):
             data = self.raw_results.copy()
             if converged_only:
                 idx_not_converged = self.raw_results[:, :, :, :, 1] == 0
@@ -142,7 +143,7 @@ class Simulator:
 
             # overall means:
             ax.scatter(self.avoidance_spans, overall_measure_means, edgecolors="k", s=100, label="Overall")
-            print(y_label, spearmanr(self.avoidance_spans, overall_measure_means))
+            print(self.measure_names[i], spearmanr(self.avoidance_spans, overall_measure_means))
 
             ax.set_xlabel("Avoidance span")
             ax.set_ylabel(y_label)
@@ -153,7 +154,7 @@ class Simulator:
 
 
 def gather(agent):
-    return agent.get_self_avoidance(), agent.converged()
+    return agent.get_self_avoidance(), agent.converged(), agent.get_n_clusters()
 
 
 if __name__ == '__main__':
@@ -161,7 +162,7 @@ if __name__ == '__main__':
     log_gs = np.linspace(-0.2, 0.2, 15)
     log_alphas = np.linspace(0.8, 1.2, 15)
     n_agents = 1000
-    measure_names = ("self-avoidance", "converged")
+    measure_names = ("self-avoidance", "converged", "# clusters")
 
     s = Simulator(n_agents, avoidance_spans, log_gs, log_alphas, gather, measure_names)
     s.get_sim_results()
