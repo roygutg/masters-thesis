@@ -5,7 +5,7 @@ from utils import scatter, ROOT
 plt.style.use('comdepri.mplstyle')
 
 cfg_data = pd.read_csv(f"{ROOT}/data/ControlRoyG11042023.csv").rename(columns={"ID": "id"})
-flanker_labels = ["median_rt", "mean_rt"]
+flanker_labels = ["median interference", "mean interference"]
 nback_labels = ["d_prime", "# correct"]
 
 for data_name, y_labels in zip(("flanker", "nback"), (flanker_labels, nback_labels)):
